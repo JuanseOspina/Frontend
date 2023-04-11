@@ -31,11 +31,14 @@ pipeline {
 
         stage('Deployment'){
             steps{
-                script{
-                    sh "ssh -i documents/JuOspina_key.pem ubuntu@10.0.0.93 'kubectl rollout restart deployment/frontend-deployment' "
+                sshagent(credentials: ['ubuntu_bastion']) {
+                    sh '''
+                    [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
+                    ssh-keyscan -t rsa,dsa 10.0.0.93 >> ~/.ssh/known_hosts
+                    ssh ubuntu@10.0.0.93 'kubectl rollout restart deployment/frontend-deployment'
+                    '''
                 }
             }
         }
-        
     }
 }
