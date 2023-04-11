@@ -28,6 +28,14 @@ pipeline {
                 }
             }
         }
+
+        stage('Deployment'){
+            steps{
+                script{
+                    sh "ssh -i documents/JuOspina_key.pem ubuntu@10.0.0.93 'kubectl rollout restart deployment/frontend-deployment' "
+                }
+            }
+        }
         
     }
 }
