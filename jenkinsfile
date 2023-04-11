@@ -22,7 +22,7 @@ pipeline {
         stage('Build new and pull'){
             steps{
                 script{
-                    sh "docker build juospina/frontend:latest ."
+                    sh "docker build -t juospina/frontend:latest ."
                     sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin "
                     sh "docker push juospina/frontend:latest"
                 }
