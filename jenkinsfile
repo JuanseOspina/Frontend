@@ -25,6 +25,8 @@ pipeline {
                     sh "docker build -t juospina/frontend:latest ."
                     sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin "
                     sh "docker push juospina/frontend:latest"
+                    sh "docker tag juospina/frontend:latest juospina/frontend:${env.BUILD_NUMBER}"
+                    sh "docker push juospina/frontend:${env.BUILD_NUMBER}"
                 }
             }
         }
